@@ -46,7 +46,7 @@ app.get("/api/value_chart", async (req, res) => {
   try {
     // Make the request to the 1inch API
     const response = await axios.get(
-      `https://api.1inch.dev/portfolio/portfolio/v4/general/value_chart?addresses=${address}&chainId=${chainId}&timerange=1year`,
+      `https://api.1inch.dev/portfolio/portfolio/v4/general/value_chart?addresses=${address}&chain_id=${chainId}&timerange=1year`,
       {
         headers: {
           Authorization: "Bearer budlbXCMPebX7rJWElK4CFUqRgkqp06i", // Replace with your actual API key
@@ -56,7 +56,11 @@ app.get("/api/value_chart", async (req, res) => {
     // Return the data from the 1inch API to the frontend
     return res.json(response.data);
   } catch (error) {
-    console.error("Error fetching data from 1inch API:", error);
+    console.error(
+      "Error fetching data from 1inch API:",
+      error.response.data,
+      chainId
+    );
     return res
       .status(500)
       .json({ error: "Failed to fetch data from 1inch API" });
