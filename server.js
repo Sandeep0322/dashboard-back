@@ -1,8 +1,10 @@
 const express = require("express");
 const axios = require("axios");
+const cors = require("cors");
 
 const app = express();
 const port = 3004; // Set your desired port
+app.use(cors());
 
 // Middleware to parse JSON
 app.use(express.json());
