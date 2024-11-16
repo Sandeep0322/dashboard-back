@@ -67,6 +67,28 @@ app.get("/api/value_chart", async (req, res) => {
   }
 });
 
+app.get("/api/eth/transactions", async (req, res) => {
+  const address = req.query.address; // Expecting 'address' as a query parameter
+
+  if (!address) {
+    return res.status(400).json({ error: "Address is required" });
+  }
+
+  try {
+    // Make the request to the 1inch API
+    const response = await axios.get(
+      `https://blockscout.com/eth/mainnet/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=desc`
+    );
+    // Return the data from the 1inch API to the frontend
+    return res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching data from 1inch API:", error);
+    return res
+      .status(500)
+      .json({ error: "Failed to fetch data from 1inch API" });
+  }
+});
+
 // Start the backend server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
